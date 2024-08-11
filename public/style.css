@@ -26,12 +26,6 @@ body{
    height: auto;
 }
 
-.navbard-logo{
-    position: relative;
-    left: 1rem;
-    width: 35px;
-    height: auto;
-}
 /* Footer */
 .f-info-links a:hover{
     text-decoration: underline;
