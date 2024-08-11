@@ -13,11 +13,44 @@
             <textarea name="listing[description]" required class="form-control"<%= listing.description %>" ></textarea>
             <div class="invalid-feedback">Please enter short description</div>
         </div>
-
         <div class="mb-3">
             Original Listing Image <br>
            <img src="<%= originalImageUrl %>" />
         </div>
+        <div class="m-b3">
+            <label for="category" class="form-label">Choose Category</label>
+            <div class="category-choose">
+                <p><b>Single choose :</b> Click &nbsp;&nbsp;</p>
+                <p><b>Multiple choose :</b> Ctrl + Click</p>
+            </div>
+            <select id="category" name="listing[category]"
+                class="form-select border border-black border-opacity-50 mb-2" multiple
+                style="font-size: .95rem;">
+                <option value="Beachfront">Beachfront</option>
+                <option value="Cabins">Cabins</option>
+                <option value="Omg">OMG</option>
+                <option value="Lake">Lake</option>
+                <option value="Design">Design</option>
+                <option value="Amazing Pools">Amazing pools</option>
+                <option value="Farms">Farms</option>
+                <option value="Amazing Views">Amazing views</option>
+                <option value="Rooms">Rooms</option>
+                <option value="Lakefront">Lakefront</option>
+                <option value="Tiny Homes">Tiny homes</option>
+                <option value="Countryside">Countryside</option>
+                <option value="Treehouse">Treehouse</option>
+                <option value="Trending">Trending</option>
+                <option value="Tropical">Tropical</option>
+                <option value="National Parks">National parks</option>
+                <option value="Casties">Casties</option>
+                <option value="Camping">Camping</option>
+                <option value="Top Of The World">Top of the world</option>
+                <option value="Luxe">Luxe</option>
+                <option value="Iconic Cities">Iconic cities</option>
+                <option value="Earth Homes">Earth homes</option>
+            </select>
+        </div>
+       
 
        <div class="mb-3">
             <label for="image" class="form-label"> Upload New Image </label>

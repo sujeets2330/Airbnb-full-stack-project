@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Review = require("./review.js")
-
-const listingSchema = new Schema ({
+const Review = require("./review.js");
+const { required } = require("joi");
+const listingSchema = new Schema({
     title: {
         type: String,
         required: true,
@@ -18,37 +18,34 @@ const listingSchema = new Schema ({
     reviews: [
         {
             type: Schema.Types.ObjectId,
-            ref :"Review",
+            ref: "Review",
         }
     ],
-    owner : {
+    owner: {
         type: Schema.Types.ObjectId,
-        ref :"User"
+        ref: "User"
     },
-    geometry :{
+    geometry: {
         type: {
-            type: String, // Don't do `{ location: { type: String } }`
-            enum: ['Point'], // 'location.type' must be 'Point'
+            type: String, 
+            enum: ['Point'], 
             required: true
-          },
-          coordinates: {
+        },
+        coordinates: {
             type: [Number],
             required: true
-          }
-        },
-        // category :{
-        //     type : String,
-        //     enum: ["mountains" ,"arctic" , "farms", "deserts"];
-        // }
-    
+        }
+    },
+    category: {
+        type: [String],
+    },
 });
 
-listingSchema.post("findOneAndDelete" ,async(listing)=>{
-    if(listing) {
-        await Review.deleteMany({_id : {$in: listing.reviews}});
+listingSchema.post("findOneAndDelete", async (listing) => {
+    if (listing) {
+        await Review.deleteMany({ _id: { $in: listing.reviews } });
     }
 });
 
 const Listing = mongoose.model("Listing", listingSchema);
 module.exports = Listing;
- 

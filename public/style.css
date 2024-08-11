@@ -19,7 +19,19 @@ body{
 .nav-link{
     color: #222222 !important;
 }
+.navbar-logo {
+    position: relative;
+    left: 1rem;
+   width: 35px;
+   height: auto;
+}
 
+.navbard-logo{
+    position: relative;
+    left: 1rem;
+    width: 35px;
+    height: auto;
+}
 /* Footer */
 .f-info-links a:hover{
     text-decoration: underline;
@@ -83,7 +95,10 @@ body{
 .edit-btn{
     background-color: #fe424d !important;
     border: none !important;
-}
+    height: 39px; 
+    font-size: 17px; 
+    }
+    
 /* Show Page */
 .show-img{
     height: 30vh;
@@ -91,6 +106,8 @@ body{
 .btns{
     display: flex;
 }
+
+
 .show-card{
     padding-left:0 ;
     padding-right: 0;
@@ -100,43 +117,39 @@ body{
     width: 80vh;
    }
 
-   /* #filters {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+   a{
+    list-style: none;
+    text-decoration: none;
+   }
+
+
+.search-box{
+    position: relative;
+    left: 20rem;
+  }
+.search-input {
+  border-radius: 25px;
+  padding: 0.5rem 3rem;
+  font-size: 0.9rem;
+} 
+
+/* Styles for the search button */
+.btn-search {
+  background-color: #fe424d;
+  color: white;
+  border-radius: 25px;
+  padding: 0 1rem;
 }
-.filter{
-    text-align: center;
-    margin-right: 2rem;
-    margin-top: 2rem;
-    opacity: 0.7;
-}
-.filter:hover{
-    opacity: 1;
-    cursor: pointer;
-}
-.filter p {
-    font-size: 0.8rem;
+
+.btn-search:hover {
+  background-color: #fe424d;
+  color: white;
 }
 
-.tax-info {
-    display: none;
+.btn-search i {
+  display: inline;
+  margin-right: 0.5rem;
 }
-.tax-toggle {
-    border: 1px solid black;
-    border-radius: 1rem;
-    height: 3.25rem;
-    padding: 1rem;
-    margin-left: 0.5rem;
-    display: flex;
-    align-items: center;
-} */
-
-
-
-
-
-
 
 
 

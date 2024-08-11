@@ -21,6 +21,7 @@ const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
+
 const port = 8080;
 // const mongo_url = "mongodb://127.0.0.1:27017/wonderlust"
 const dbUrl = process.env.ATLASDB_URL;
@@ -55,7 +56,7 @@ const store = MongoStore.create({
     });
 
 const sessionOptions = {
-    store ,
+    store,
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized : true,
@@ -65,9 +66,6 @@ const sessionOptions = {
         httpOnly : true,
     },
 };
-// app.get("/",(req,res)=>{
-//     res.send("HII I AM ROOT HERE!!");
-// });
 
 app.use(session(sessionOptions));
 app.use(flash());
@@ -81,7 +79,6 @@ passport.deserializeUser(User.deserializeUser());
 app.use((req,res,next)=>{
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
-
     res.locals.currUser = req.user;
     next();
 });
@@ -89,6 +86,8 @@ app.use((req,res,next)=>{
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews" ,reviewRouter);
 app.use("/", userRouter);
+
+
 
 app.all("*",(req,res,next)=>{
     next(new ExpressError(404 ,"Page not Found.!"));
