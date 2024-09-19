@@ -2,12 +2,10 @@
 # Wanderlust -Inspired By Airbnb
 This is a Full-Stack Web Application 🚀
 
-<p align="center">
-  <b style="color: blue;  ">Visitor count</b>
-  <br>
+
   <a style="" href="https://github.com/sujeets2330">
   </a>
-</p>
+
 
 ---
 
