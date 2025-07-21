@@ -147,6 +147,7 @@ Encountered challenges, especially with data handling, but implemented efficient
 
 Sujeet M A
 LinkedIn : https://www.linkedin.com/in/sujeet-m-a-39a86b2b9/
+Mail : sujeetmalagundi999@gmail.com 
 
 ## Thank You
 
