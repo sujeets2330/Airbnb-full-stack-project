@@ -33,9 +33,4 @@ router.route("/:id")
 router.get("/:id/edit", isLoggedIn, isOwner, wrapAsync(listingCountroller.renderEditForm));
 
 
-
-
-module.exports = router;
-
-
 module.exports = router;

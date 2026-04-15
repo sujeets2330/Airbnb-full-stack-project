@@ -57,51 +57,18 @@ originalImageUrl = originalImageUrl.replace("/upload", "/upload/c_fill,h_250,w_2
   res.render("listings/edit.ejs",{listing, originalImageUrl});
   }
   
-  // module.exports.updateListing = async (req, res)=>{
-  //   let { id } = req.params;
-  //   let listing = await Listing.findByIdAndUpdate(id, {...req.body.listing });
-  //   if( typeof req.file !== "undefined"){
-  //     let url= req.file.path;
-  //     let filename = req.file.filename;
-  //     listing.image = {url ,filename};
-  //     await listing.save();
-  //   }
-  //  req.flash("success", "Listing Updated Successfully.!");
-  //   res.redirect(`/listings/${id}`);
-  // };
-  module.exports.updateListing = async (req, res) => {
+  module.exports.updateListing = async (req, res)=>{
     let { id } = req.params;
-    let listing = await Listing.findById(id);
-
-    if (!listing) {
-        req.flash("error", "Listing not found!");
-        return res.redirect("/listings");
+    let listing = await Listing.findByIdAndUpdate(id, {...req.body.listing });
+    if( typeof req.file !== "undefined"){
+      let url= req.file.path;
+      let filename = req.file.filename;
+      listing.image = {url ,filename};
+      await listing.save();
     }
-
-    // If location is updated, geocode the new location
-    if (req.body.listing.location && req.body.listing.location !== listing.location) {
-        let response = await geocodingClient.forwardGeocode({
-            query: req.body.listing.location,
-            limit: 1,
-        }).send();
-        listing.geometry = response.body.features[0].geometry;  
-    }
-
-    // Update listing with new data
-    Object.assign(listing, req.body.listing);
-
-    // If a new image is uploaded, update it
-    if (typeof req.file !== "undefined") {
-        let url = req.file.path;
-        let filename = req.file.filename;
-        listing.image = { url, filename };
-    }
-
-    await listing.save();
-    req.flash("success", "Listing Updated Successfully.!");
+   req.flash("success", "Listing Updated Successfully.!");
     res.redirect(`/listings/${id}`);
-};
-
+  };
 
   module.exports.destroyListing = async (req,res)=>{
     let {id} = req.params;
@@ -110,29 +77,6 @@ originalImageUrl = originalImageUrl.replace("/upload", "/upload/c_fill,h_250,w_2
    req.flash("success", "Listing Deleted!");
    res.redirect("/listings");
   };
-
-
-
- 
-
-module.exports.getSearchSuggestions = async (req, res) => {
-    let query = req.query.q.trim();
-    if (!query) return res.json([]);
-
-    let regex = new RegExp(query, "i"); // Case-insensitive search
-
-    let suggestions = await Listing.find(
-        { $or: [
-            { title: { $regex: regex } },
-            { category: { $regex: regex } },
-            { location: { $regex: regex } },
-            { country: { $regex: regex } }
-        ]}
-    ).limit(5); // Limit to 5 results
-
-    res.json(suggestions.map(listing => listing.title)); // Send only titles as suggestions
-};
-
 
   module.exports.filter = async (req, res, next) => {
     let { id } = req.params;
@@ -146,121 +90,85 @@ module.exports.getSearchSuggestions = async (req, res) => {
       res.redirect("/listings");
     }
   };
-
+  
   module.exports.search = async (req, res) => {
     console.log(req.query.q);
-    let input = req.query.q.trim();
-
-    if (!input) {
-        req.flash("error", "Search value empty !!!");
-        return res.redirect("/listings");
-    }
-
-    let allListings = await Listing.find({ $text: { $search: input } });
-
-    // If no results, fallback to regex search
-    if (allListings.length === 0) {
-        let searchPattern = new RegExp(input, "i");
-        let query = {
-            $or: [
-                { title: { $regex: searchPattern } },
-                { category: { $regex: searchPattern } },
-                { country: { $regex: searchPattern } },
-                { location: { $regex: searchPattern } }
-            ]
-        };
-        allListings = await Listing.find(query).sort({ _id: -1 });
-    }
-
-    if (allListings.length > 0) {
-        res.locals.success = `Listings searched for "${input}"`;
-        return res.render("listings/index.ejs", { allListings });
-    } else {
-        req.flash("error", "No matching listings found!");
-        return res.redirect("/listings");
-    }
-};
-
-
-  
-  // module.exports.search = async (req, res) => {
-  //   console.log(req.query.q);
-  //   let input = req.query.q.trim().replace(/\s+/g, " ");
-  //   if (input == "" || input == " ") {
+    let input = req.query.q.trim().replace(/\s+/g, " ");
+    if (input == "" || input == " ") {
     
-  //     req.flash("error", "Search value empty !!!");
-  //     res.redirect("/listings");
-  //   }
+      req.flash("error", "Search value empty !!!");
+      res.redirect("/listings");
+    }
   
-  //   // convert every word 1st latter capital and other small
-  //   let data = input.split("");
-  //   let element = "";
-  //   let flag = false;
-  //   for (let index = 0; index < data.length; index++) {
-  //     if (index == 0 || flag) {
-  //       element = element + data[index].toUpperCase();
-  //     } else {
-  //       element = element + data[index].toLowerCase();
-  //     }
-  //     flag = data[index] == " ";
-  //   }
-  //   console.log(element);
+    // convert every word 1st latter capital and other small
+    let data = input.split("");
+    let element = "";
+    let flag = false;
+    for (let index = 0; index < data.length; index++) {
+      if (index == 0 || flag) {
+        element = element + data[index].toUpperCase();
+      } else {
+        element = element + data[index].toLowerCase();
+      }
+      flag = data[index] == " ";
+    }
+    console.log(element);
   
-  //   let allListings = await Listing.find({
-  //     title: { $regex: element, $options: "i" },
-  //   });
-  //   if (allListings.length != 0) {
-  //     res.locals.success = "Listings searched by Title";
-  //     res.render("listings/index.ejs", { allListings });
-  //     return;
-  //   }
-  //   if (allListings.length == 0) {
-  //     allListings = await Listing.find({
-  //       category: { $regex: element, $options: "i" },
-  //     }).sort({ _id: -1 });
-  //     if (allListings.length != 0) {
-  //       res.locals.success = "Listings searched by Category";
-  //       res.render("listings/index.ejs", { allListings });
-  //       return;
-  //     }
-  //   }
-  //   if (allListings.length == 0) {
-  //     allListings = await Listing.find({
-  //       country: { $regex: element, $options: "i" },
-  //     }).sort({ _id: -1 });
-  //     if (allListings.length != 0) {
-  //       res.locals.success = "Listings searched by Country";
-  //       res.render("listings/index.ejs", { allListings });
-  //       return;
-  //     }
-  //   }
-  //   if (allListings.length == 0) {
-  //     let allListings = await Listing.find({
-  //       location: { $regex: element, $options: "i" },
-  //     }).sort({ _id: -1 });
-  //     if (allListings.length != 0) {
-  //       res.locals.success = "Listings searched by Location";
-  //       res.render("listings/index.ejs", { allListings });
-  //       return;
-  //     }
-  //   }
-  //   const intValue = parseInt(element, 10); // 10 for decimal return - int ya NaN
-  //   const intDec = Number.isInteger(intValue); // check intValue is Number & Not Number return - true ya false
+    let allListings = await Listing.find({
+      title: { $regex: element, $options: "i" },
+    });
+    if (allListings.length != 0) {
+      res.locals.success = "Listings searched by Title";
+      res.render("listings/index.ejs", { allListings });
+      return;
+    }
+    if (allListings.length == 0) {
+      allListings = await Listing.find({
+        category: { $regex: element, $options: "i" },
+      }).sort({ _id: -1 });
+      if (allListings.length != 0) {
+        res.locals.success = "Listings searched by Category";
+        res.render("listings/index.ejs", { allListings });
+        return;
+      }
+    }
+    if (allListings.length == 0) {
+      allListings = await Listing.find({
+        country: { $regex: element, $options: "i" },
+      }).sort({ _id: -1 });
+      if (allListings.length != 0) {
+        res.locals.success = "Listings searched by Country";
+        res.render("listings/index.ejs", { allListings });
+        return;
+      }
+    }
+    if (allListings.length == 0) {
+      let allListings = await Listing.find({
+        location: { $regex: element, $options: "i" },
+      }).sort({ _id: -1 });
+      if (allListings.length != 0) {
+        res.locals.success = "Listings searched by Location";
+        res.render("listings/index.ejs", { allListings });
+        return;
+      }
+    }
+    const intValue = parseInt(element, 10); // 10 for decimal return - int ya NaN
+    const intDec = Number.isInteger(intValue); // check intValue is Number & Not Number return - true ya false
   
-  //   if (allListings.length == 0 && intDec) {
-  //     allListings = await Listing.find({ price: { $lte: element } }).sort({
-  //       price: 1,
-  //     });
-  //     if (allListings.length != 0) {
-  //       res.locals.success = `Listings searched for less than Rs ${element}`;
-  //       res.render("listings/index.ejs", { allListings });
-  //       return;
-  //     }
-  //   }
-  //   if (allListings.length == 0) {
-  //     req.flash("error", "Listings is not here !!!");
-  //     res.redirect("/listings");
-  //   }
-  // };
+    if (allListings.length == 0 && intDec) {
+      allListings = await Listing.find({ price: { $lte: element } }).sort({
+        price: 1,
+      });
+      if (allListings.length != 0) {
+        res.locals.success = `Listings searched for less than Rs ${element}`;
+        res.render("listings/index.ejs", { allListings });
+        return;
+      }
+    }
+    if (allListings.length == 0) {
+      req.flash("error", "Listings is not here !!!");
+      res.redirect("/listings");
+    }
+  };
   
 

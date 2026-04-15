@@ -20,6 +20,7 @@
   });
  
 
+
   // document.addEventListener("DOMContentLoaded", function() {
   //   const tabsBox = document.querySelector(".tabs-box");
   //   const allTabs = tabsBox.querySelectorAll(".tab");

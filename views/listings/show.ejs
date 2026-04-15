@@ -33,7 +33,7 @@
     </div>
     <% } %>
    
-
+ 
     <div class="col-8 offset-3 mb-3">
        
         <% if(currUser) { %>
@@ -78,17 +78,14 @@
                     <p class="card-text"><%= review.comment %></p>
                   
                 </div><br>
-                <% if(currUser && review.author._id.toString() === currUser._id.toString()) { %>
-                    <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST" class="mb-3">
-                        <button class="btn btn-sm btn-dark">Delete</button>
-                    </form>
-                <% } %>
-                
+                <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST" class="mb-3">
+                    <button class="btn  btn-sm btn-dark">Delete</button>
+                </form>
             </div>
         <% } %>
     </div>
     <% } %>
- </div> 
+ </div>
  <div class="col-6 offset-3 mb-3">
     <h3>Where you'll be</h3>
     <div id="map">

@@ -1,24 +1,32 @@
 
 # Wanderlust -Inspired By Airbnb
-This is a Full-Stack Web Application 🚀
+This is a Full-Stack Web Application 
 
-
-  <a style="" href="https://github.com/sujeets2330">
-  </a>
-
+Live  : https://airbnb-full-stack-project-z8xi.onrender.com/listings
 
 ---
 
 ## Table of Contents
 
--   [Project Overview](#project-overview)
--   [Technologies & Packages Used](#technologies--packages-used)
--   [Key Features](#key-features)
--   [How to Install](#how-to-install)
--   [Challenges & Solutions](#challenges--solutions)
--   [Author](#author)
--   [Project Link](#project-link)
--   [Thank You](#thank-you)
+- [Wanderlust -Inspired By Airbnb](#wanderlust--inspired-by-airbnb)
+  - [Table of Contents](#table-of-contents)
+  - [Project Overview](#project-overview)
+  - [Technologies \& Packages Used](#technologies--packages-used)
+    - [Backend](#backend)
+    - [Authentication](#authentication)
+    - [Image Storage](#image-storage)
+    - [Maps](#maps)
+    - [Frontend](#frontend)
+    - [Session Management](#session-management)
+    - [Validation](#validation)
+    - [Object Modeling](#object-modeling)
+    - [File Uploads](#file-uploads)
+    - [Social Authentication](#social-authentication)
+  - [Key Features](#key-features)
+  - [How to Install](#how-to-install)
+  - [Challenges \& Solutions](#challenges--solutions)
+  - [Author](#author)
+  - [Thank You](#thank-you)
 
 ## Project Overview
 
@@ -144,6 +152,7 @@ Encountered challenges, especially with data handling, but implemented efficient
 
 Sujeet M A
 LinkedIn : https://www.linkedin.com/in/sujeet-m-a-39a86b2b9/
+Mail : sujeetmalagundi999@gmail.com 
 
 ## Thank You
 

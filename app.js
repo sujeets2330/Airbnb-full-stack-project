@@ -23,8 +23,8 @@ const userRouter = require("./routes/user.js");
 
 
 const port = 8080;
-const mongo_url = "mongodb://127.0.0.1:27017/AIRBNB"
-// const dbUrl = process.env.ATLASDB_URL;
+// const mongo_url = "mongodb://127.0.0.1:27017/wonderlust"
+const dbUrl = process.env.ATLASDB_URL;
 
 main().then(()=>{
     console.log("connected to database");
@@ -34,7 +34,7 @@ main().then(()=>{
 });
 
 async function main() {
-    await mongoose.connect(mongo_url);
+    await mongoose.connect(dbUrl);
 }
 app.set("view engine", "ejs");
 app.set("views",path.join(__dirname,"views"));
@@ -44,7 +44,7 @@ app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname,"/public")));
 
 const store = MongoStore.create({
-    mongoUrl: mongo_url,
+    mongoUrl: dbUrl,
     crypto: {
         secret: process.env.SECRET,
       },
