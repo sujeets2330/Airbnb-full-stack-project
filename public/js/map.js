@@ -14,5 +14,3 @@
         `<h4>${listing.title}</h4> <p>Exact Location provided after booking </p>`
        ))
        .addTo(map);
-
-      

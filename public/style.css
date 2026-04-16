@@ -145,6 +145,150 @@ body{
   margin-right: 0.5rem;
 }
 
+/* ========== MOBILE RESPONSIVE FIXES ========== */
 
+/* Tablet and Mobile Devices */
+@media (max-width: 992px) {
+    .search-box {
+        left: 0;
+        width: 100%;
+        margin: 10px 0;
+    }
+    
+    .search-input {
+        width: 100%;
+    }
+    
+    .navbar {
+        height: auto;
+        padding: 10px;
+    }
+    
+    .navbar-brand {
+        margin-right: auto;
+    }
+    
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
 
+@media (max-width: 768px) {
+    .listing-card {
+        margin-bottom: 1rem;
+    }
+    
+    .row > [class*="col-"] {
+        padding: 0 8px;
+    }
+    
+    .show-img {
+        height: 40vh;
+        object-fit: cover;
+    }
+    
+    #map {
+        height: 300px;
+        width: 100%;
+    }
+    
+    .btns {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .btns a, 
+    .btns button {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .f-info {
+        height: auto;
+        padding: 20px 10px;
+    }
+    
+    .f-info-links,
+    .f-info-socials,
+    .f-info-brand {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}
 
+@media (max-width: 576px) {
+    .listing-card {
+        margin-bottom: 1.5rem;
+    }
+    
+    .col-sm-6 {
+        width: 100%;
+    }
+    
+    .show-img {
+        height: 35vh;
+    }
+    
+    .edit-btn {
+        width: 100%;
+        margin-top: 10px;
+    }
+    
+    .add-btn {
+        width: 100%;
+    }
+    
+    .d-flex {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .btn-search {
+        width: 100%;
+        margin-top: 5px;
+    }
+    
+    .navbar-nav {
+        text-align: center;
+        margin-top: 10px;
+    }
+    
+    .nav-link {
+        padding: 8px 0;
+    }
+    
+    .card-title {
+        font-size: 1rem;
+    }
+    
+    .card-text p {
+        font-size: 0.9rem;
+    }
+    
+    .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+}
+
+/* Small mobile devices */
+@media (max-width: 375px) {
+    .show-img {
+        height: 30vh;
+    }
+    
+    .navbar-brand img {
+        height: 30px !important;
+    }
+    
+    .fa-compass {
+        font-size: 1.5rem;
+    }
+}
+
+/* Ensure all images are responsive */
+img {
+    max-width: 100%;
+    height: auto;
+}

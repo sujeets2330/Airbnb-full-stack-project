@@ -9,21 +9,25 @@ a{
     width: 100%;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
+    gap: 20px;
 }
 
 #filters {
     display: flex;
     width: 100%;
-    overflow-x: scroll;
+    overflow-x: auto;
     align-items: center;
     height: 90px;
     position: relative;
     margin: 5px 2px 0px 2px;
+    flex: 1;
 }
 
 #filters > a {
     margin: 0px 1.25rem;
     text-decoration: none;
+    flex-shrink: 0;
 }
 
 @media (max-width:768px) {
@@ -107,105 +111,124 @@ a{
     display: inline;
 }
 
+/* TAX TOGGLE BUTTON - PERFECT SIZE */
 .tax-toggle {
-    position: relative;
-    left: 4rem;
-    border: .5px solid rgba(128, 128, 128, 0.503);
-    border-radius: 12px;
-    height: 3rem;
-    min-width: 250px;
-    width: fit-content !important;
-    font-size: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgb(255, 255, 255);
-    font-weight: 500;
+    gap: 15px;
+    border: 1px solid #ddd;
+    border-radius: 40px;
+    padding: 8px 20px;
+    background: white;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
 }
 
 .tax-toggle:hover {
-    border: 1px solid black;
+    border-color: #000;
 }
 
-.tax-filter {
-    justify-self: flex-end;
-    min-width: 280px;
-}
-
-.tax-sticky-sticky {
-    position: relative;
-    top: -2px;
-}
-
-.tax-switch:checked {
-    height: 23px;
-    background-color: black;
-}
-
-.form-check-input {
-    height: 23px;
-    width: 2.3rem !important;
-    margin-left: 5px !important;
-}
-
-.form-switch .form-check-input {
-    transition: background-position .25s ease-in-out;
-
-}
-
-.tax-sticky {
-    display: none;
-}
-
-.tax-filter-icon {
+.tax-toggle .form-check {
     display: flex;
-    justify-content: center;
     align-items: center;
-    margin: 0px auto;
-    min-width: 100px;
+    gap: 15px;
+    margin: 0;
+    padding: 4px 8px;
+}
+
+.tax-toggle .form-check-label {
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.tax-toggle .form-check-input {
+    width: 38px !important;
+    height: 20px !important;
+    cursor: pointer;
+    margin: 0;
+}
+
+/* TABLET */
+@media (max-width: 992px) {
+    .filters-main {
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    #filters {
+        width: 100%;
+        order: 1;
+    }
+    
+    .tax-toggle {
+        order: 2;
+        margin: 10px auto;
+        width: auto;
+    }
+}
+
+/* MOBILE - MEDIUM SIZE */
+@media (max-width: 768px) {
+    .tax-toggle {
+        padding: 5px 14px;
+        gap: 8px;
+        border-radius: 35px;
+    }
+    
+    .tax-toggle .form-check {
+        gap: 7px;
+    }
+    
+    .tax-toggle .form-check-label {
+        font-size: 0.75rem;
+    }
+    
+    .tax-toggle .form-check-input {
+        width: 34px !important;
+        height: 17px !important;
+    }
+}
+
+/* SMALL PHONES */
+@media (max-width: 576px) {
+    .tax-toggle {
+        padding: 4px 12px;
+        gap: 6px;
+        border-radius: 30px;
+    }
+    
+    .tax-toggle .form-check {
+        gap: 5px;
+    }
+    
+    .tax-toggle .form-check-label {
+        font-size: 0.7rem;
+    }
+    
+    .tax-toggle .form-check-input {
+        width: 30px !important;
+        height: 16px !important;
+    }
+}
+
+.filter > p {
+    display: block;
+    white-space: nowrap;
+    font-weight: 600;
+    font-size: 0.7rem;
+    color: black;
+    margin-top: 5px;
 }
 
 .tax-filter-icon-small {
     display: none;
 }
-
-.filter > p {
-    display: -block;
-    white-space: nowrap;
-    font-weight: 600;
-    font-size: 0.7rem;
-    color: black;
-}
-
-@media (max-width: 767px) {
-    .tax-toggle {
-        display: block;
-        position: sticky !important;
-        top: calc(8rem - .5px) !important;
-        z-index: 15;
-        margin: 0px auto !important;
-        padding: 0.6rem 2rem 1rem 0rem;
-        border: .5px solid rgba(128, 128, 128, 0.703);
-    }
-    .tax-filter {
-        display: none;
-    }
-
-    .tax-filter-icon {
-        display: none;
-    }
-
-    .tax-filter-icon-small {
-        min-width: 35px;
-        padding-left: 18px;
-        padding-top: 12px;
-        margin: 25px 0px !important;
-        display: block;
-    }
-}
-
-
-/* tax  or filterbtn*/
+/* tax or filterbtn */
 .showfilter {
     display: none;
     justify-content: center;
@@ -376,7 +399,6 @@ h4 {
     font-size: 1rem;
 }
 
-/* input[type="checkbox"], */
 .checkboxBtn {
     height: 25px !important;
     width: 25px;
@@ -435,7 +457,6 @@ input[type="checkbox"]:checked {
     margin: 0px 1px;
     margin-bottom: -20px;
     position: relative;
-    /* top: 30px; */
 }
 
 .graph > div:nth-child(n) {
@@ -570,7 +591,6 @@ input[type="number"]::-webkit-outer-spin-button {
     height: 120px;
     margin: 1.5%;
     transition: .5s ease-in-out 0s;
-
 }
 
 .property-type > div:hover {
