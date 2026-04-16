@@ -3,11 +3,11 @@ mapboxgl.accessToken = mapToken;
 // Initialize map with better style & controls
 const map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/streets-v12', // better visual style
+    style: 'mapbox://styles/mapbox/streets-v12', 
     center: listing.geometry.coordinates,
     zoom: 10,
-    pitch: 45, // slight 3D tilt
-    bearing: -10 // angled view
+    pitch: 45, 
+    bearing: -10 
 });
 
 // Add navigation controls (zoom + rotation)
@@ -36,7 +36,7 @@ const popup = new mapboxgl.Popup({ offset: 30 }).setHTML(`
 
 // Create marker with animation
 const marker = new mapboxgl.Marker({
-    color: "#e63946", // modern red
+    color: "#e63946", 
     scale: 1.2
 })
 .setLngLat(listing.geometry.coordinates)
