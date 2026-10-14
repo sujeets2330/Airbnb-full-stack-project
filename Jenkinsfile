@@ -2,8 +2,17 @@
 pipeline {
     agent any
 
+    parameters {
+        booleanParam(
+            name: 'RUN_SECURITY_SCAN',
+            defaultValue: false,
+            description: 'Run Trivy Docker image vulnerability scan'
+        )
+    }
+
     environment {
         IMAGE_NAME = 'wanderlust'
+        APP_URL = 'https://airbnb-full-stack-project-z8xi.onrender.com/listings'
     }
 
     stages {
@@ -13,23 +22,54 @@ pipeline {
             }
         }
 
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm ci'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'npm test --if-present'
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} .'
             }
         }
 
-        stage('Test') {
+        stage('Validate Docker Image') {
             steps {
-                sh 'npm ci'
-                sh 'npm test --if-present'
+                sh 'docker image inspect ${IMAGE_NAME}:${BUILD_NUMBER}'
+            }
+        }
+
+        stage('Security Scan') {
+            when {
+                expression {
+                    params.RUN_SECURITY_SCAN
+                }
+            }
+            steps {
+                sh '''
+                    trivy image \
+                      --exit-code 1 \
+                      --severity HIGH,CRITICAL \
+                      ${IMAGE_NAME}:${BUILD_NUMBER}
+                '''
             }
         }
 
         stage('Approval for Deployment') {
             steps {
-                input message: 'Approve deployment to production?',
-                      ok: 'Approve'
+                timeout(time: 10, unit: 'MINUTES') {
+                    input(
+                        message: 'Approve deployment to Render?',
+                        ok: 'Deploy'
+                    )
+                }
             }
         }
 
@@ -41,8 +81,23 @@ pipeline {
                         variable: 'DEPLOY_HOOK'
                     )
                 ]) {
-                    sh 'curl --fail --silent --show-error -X POST "$DEPLOY_HOOK"'
+                    sh '''
+                        curl --fail --silent --show-error \
+                          -X POST "$DEPLOY_HOOK"
+                    '''
                 }
+            }
+        }
+
+        stage('Post-Deployment Verification') {
+            steps {
+                sh '''
+                    curl --fail --silent --show-error \
+                      --retry 12 \
+                      --retry-delay 10 \
+                      --retry-connrefused \
+                      "$APP_URL"
+                '''
             }
         }
     }
@@ -50,32 +105,48 @@ pipeline {
     post {
         success {
             emailext(
-                to: 'sujeets2330@example.com',
+                to: 'sujeets2330@gmail.com',
                 subject: "SUCCESS: ${JOB_NAME} #${BUILD_NUMBER}",
                 body: """
-                Build completed successfully!
+                Pipeline completed successfully.
 
-                Project: ${JOB_NAME}
-                Build Number: ${BUILD_NUMBER}
+                Job: ${JOB_NAME}
+                Build: ${BUILD_NUMBER}
                 Status: SUCCESS
 
-                Check console output: ${BUILD_URL}
+                Details: ${BUILD_URL}
                 """
             )
         }
 
         failure {
             emailext(
-                to: 'sujeets2330@example.com',
+                to: 'sujeets2330gmail.com',
                 subject: "FAILED: ${JOB_NAME} #${BUILD_NUMBER}",
                 body: """
-                The CI/CD pipeline has failed.
+                The CI/CD pipeline failed.
 
-                Project: ${JOB_NAME}
-                Build Number: ${BUILD_NUMBER}
+                Job: ${JOB_NAME}
+                Build: ${BUILD_NUMBER}
                 Status: FAILURE
 
-                Check console output: ${BUILD_URL}
+                Check the failed stage and console log:
+                ${BUILD_URL}
+                """
+            )
+        }
+
+        aborted {
+            emailext(
+                to: 'sujeets2330@gmail.com',
+                subject: "ABORTED: ${JOB_NAME} #${BUILD_NUMBER}",
+                body: """
+                The pipeline was aborted or cancelled.
+
+                Job: ${JOB_NAME}
+                Build: ${BUILD_NUMBER}
+
+                Details: ${BUILD_URL}
                 """
             )
         }
